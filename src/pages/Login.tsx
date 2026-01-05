@@ -18,6 +18,15 @@ const Login = () => {
 
   useEffect(() => {
     const initAuth = async () => {
+      const { protocol, hostname, href } = window.location;
+
+      // Ensure we are always on HTTPS for production domains.
+      // Some browsers may open the site over http:// which causes Google OAuth redirect_uri_mismatch.
+      if (protocol === "http:" && hostname !== "localhost" && hostname !== "127.0.0.1") {
+        window.location.replace(href.replace("http://", "https://"));
+        return;
+      }
+
       // Parse token from URL hash (redirect flow)
       const hash = window.location.hash;
       if (hash) {
@@ -57,16 +66,13 @@ const Login = () => {
   const handleLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
-    // Force https on real domains to avoid OAuth redirect_uri_mismatch when a browser opens http://
-    const redirectOrigin = (() => {
-      const { protocol, hostname, origin } = window.location;
-      if (protocol === "http:" && hostname !== "localhost" && hostname !== "127.0.0.1") {
-        return origin.replace("http://", "https://");
-      }
-      return origin;
-    })();
+    const isLocalhost =
+      window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-    const redirectUri = `${redirectOrigin}/login`;
+    // Always use HTTPS for non-local domains in OAuth redirect_uri.
+    const redirectUri = isLocalhost
+      ? `${window.location.origin}/login`
+      : `https://${window.location.host}/login`;
 
     const scope = encodeURIComponent(
       "openid email profile https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.coursework.me https://www.googleapis.com/auth/classroom.coursework.students https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.student-submissions.me.readonly https://www.googleapis.com/auth/classroom.student-submissions.students.readonly https://www.googleapis.com/auth/classroom.announcements.readonly https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly https://www.googleapis.com/auth/drive.file"
