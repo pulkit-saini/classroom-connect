@@ -10,9 +10,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Navbar } from '@/components/landing/Navbar';
 import { Footer } from '@/components/landing/Footer';
 import { useToast } from '@/hooks/use-toast';
-
 export default function ContactUs() {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -22,56 +23,50 @@ export default function ContactUs() {
     type: '',
     message: ''
   });
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
     toast({
       title: "Message Sent!",
-      description: "We'll get back to you within 24 hours.",
+      description: "We'll get back to you within 24 hours."
     });
-    
-    setFormData({ name: '', email: '', phone: '', organization: '', type: '', message: '' });
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      organization: '',
+      type: '',
+      message: ''
+    });
     setIsSubmitting(false);
   };
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      title: 'Email Us',
-      details: 'info@skilllms.in',
-      subtext: 'For general inquiries'
-    },
-    {
-      icon: Phone,
-      title: 'Call Us',
-      details: '+91 123 456 7890',
-      subtext: 'Mon-Fri, 9AM-6PM IST'
-    },
-    {
-      icon: MapPin,
-      title: 'Visit Us',
-      details: 'Sector 62, Noida, India',
-      subtext: 'By appointment only'
-    },
-  ];
-
-  return (
-    <div className="min-h-screen bg-background">
+  const contactInfo = [{
+    icon: Mail,
+    title: 'Email Us',
+    details: 'support@skilllms.in',
+    subtext: 'For general inquiries'
+  }, {
+    icon: Phone,
+    title: 'Call Us',
+    details: '+91 123 456 7890',
+    subtext: 'Mon-Fri, 9AM-6PM IST'
+  }, {
+    icon: MapPin,
+    title: 'Visit Us',
+    details: 'Bangalore, India',
+    subtext: 'By appointment only'
+  }];
+  return <div className="min-h-screen bg-background">
       <Navbar />
       
       <main className="pt-24 pb-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-12">
-            <Link to="/" className="inline-flex items-center gap-2 text-primary hover:underline mb-6">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Home
-            </Link>
+            
             <h1 className="text-4xl font-bold text-foreground mb-4">Get in Touch</h1>
             <p className="text-lg text-muted-foreground max-w-xl mx-auto">
               Have questions about SkillLMS.in? We'd love to hear from you. 
@@ -82,8 +77,7 @@ export default function ContactUs() {
           <div className="grid lg:grid-cols-3 gap-8">
             {/* Contact Info Cards */}
             <div className="space-y-4">
-              {contactInfo.map((info) => (
-                <Card key={info.title} className="bg-card border-border/50">
+              {contactInfo.map(info => <Card key={info.title} className="bg-card border-border/50">
                   <CardContent className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -96,8 +90,7 @@ export default function ContactUs() {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
 
               {/* Additional Info */}
               <Card className="bg-gradient-to-br from-primary/10 to-accent/10 border-0">
@@ -124,60 +117,43 @@ export default function ContactUs() {
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="name">Full Name *</Label>
-                        <Input
-                          id="name"
-                          placeholder="John Doe"
-                          value={formData.name}
-                          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          required
-                          className="bg-background"
-                        />
+                        <Input id="name" placeholder="John Doe" value={formData.name} onChange={e => setFormData({
+                        ...formData,
+                        name: e.target.value
+                      })} required className="bg-background" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="email">Email Address *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          placeholder="john@example.com"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          required
-                          className="bg-background"
-                        />
+                        <Input id="email" type="email" placeholder="john@example.com" value={formData.email} onChange={e => setFormData({
+                        ...formData,
+                        email: e.target.value
+                      })} required className="bg-background" />
                       </div>
                     </div>
 
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <Label htmlFor="phone">Phone Number</Label>
-                        <Input
-                          id="phone"
-                          type="tel"
-                          placeholder="+91 98765 43210"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="bg-background"
-                        />
+                        <Input id="phone" type="tel" placeholder="+91 98765 43210" value={formData.phone} onChange={e => setFormData({
+                        ...formData,
+                        phone: e.target.value
+                      })} className="bg-background" />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="organization">Organization</Label>
-                        <Input
-                          id="organization"
-                          placeholder="Your School/Institute"
-                          value={formData.organization}
-                          onChange={(e) => setFormData({ ...formData, organization: e.target.value })}
-                          className="bg-background"
-                        />
+                        <Input id="organization" placeholder="Your School/Institute" value={formData.organization} onChange={e => setFormData({
+                        ...formData,
+                        organization: e.target.value
+                      })} className="bg-background" />
                       </div>
                     </div>
 
                     <div className="space-y-2">
                       <Label htmlFor="type">Inquiry Type *</Label>
-                      <Select 
-                        value={formData.type} 
-                        onValueChange={(value) => setFormData({ ...formData, type: value })}
-                        required
-                      >
+                      <Select value={formData.type} onValueChange={value => setFormData({
+                      ...formData,
+                      type: value
+                    })} required>
                         <SelectTrigger className="bg-background">
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
@@ -193,31 +169,17 @@ export default function ContactUs() {
 
                     <div className="space-y-2">
                       <Label htmlFor="message">Message *</Label>
-                      <Textarea
-                        id="message"
-                        placeholder="Tell us how we can help you..."
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        required
-                        rows={5}
-                        className="bg-background resize-none"
-                      />
+                      <Textarea id="message" placeholder="Tell us how we can help you..." value={formData.message} onChange={e => setFormData({
+                      ...formData,
+                      message: e.target.value
+                    })} required rows={5} className="bg-background resize-none" />
                     </div>
 
-                    <Button 
-                      type="submit" 
-                      size="lg"
-                      className="w-full bg-primary hover:bg-primary/90"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? (
-                        'Sending...'
-                      ) : (
-                        <>
+                    <Button type="submit" size="lg" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+                      {isSubmitting ? 'Sending...' : <>
                           <Send className="mr-2 h-5 w-5" />
                           Send Message
-                        </>
-                      )}
+                        </>}
                     </Button>
                   </form>
                 </CardContent>
@@ -228,6 +190,5 @@ export default function ContactUs() {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 }
