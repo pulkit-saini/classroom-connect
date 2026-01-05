@@ -1,17 +1,35 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.png';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('google_access_token');
+    const role = localStorage.getItem('user_role');
+    setIsLoggedIn(!!token);
+    setUserRole(role);
+  }, []);
 
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'HelpDesk', href: '/helpdesk' },
     { name: 'Contact Us', href: '/contact' },
   ];
+
+  const handleDashboardClick = () => {
+    if (userRole) {
+      navigate(`/${userRole}`);
+    } else {
+      navigate('/student');
+    }
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
@@ -34,11 +52,20 @@ export function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Link to="/login">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6">
-                Sign Up
+            {isLoggedIn ? (
+              <Button 
+                onClick={handleDashboardClick}
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6"
+              >
+                Dashboard
               </Button>
-            </Link>
+            ) : (
+              <Link to="/login">
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6">
+                  Sign Up
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -64,11 +91,23 @@ export function Navbar() {
                   {link.name}
                 </Link>
               ))}
-              <Link to="/login" onClick={() => setIsOpen(false)}>
-                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-                  Sign Up
+              {isLoggedIn ? (
+                <Button 
+                  onClick={() => {
+                    setIsOpen(false);
+                    handleDashboardClick();
+                  }}
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                >
+                  Dashboard
                 </Button>
-              </Link>
+              ) : (
+                <Link to="/login" onClick={() => setIsOpen(false)}>
+                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+                    Sign Up
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         )}
