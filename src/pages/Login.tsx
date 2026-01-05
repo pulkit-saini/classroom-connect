@@ -56,13 +56,26 @@ const Login = () => {
 
   const handleLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = `${window.location.origin}/login`;
+
+    // Force https on real domains to avoid OAuth redirect_uri_mismatch when a browser opens http://
+    const redirectOrigin = (() => {
+      const { protocol, hostname, origin } = window.location;
+      if (protocol === "http:" && hostname !== "localhost" && hostname !== "127.0.0.1") {
+        return origin.replace("http://", "https://");
+      }
+      return origin;
+    })();
+
+    const redirectUri = `${redirectOrigin}/login`;
+
     const scope = encodeURIComponent(
       "openid email profile https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.coursework.me https://www.googleapis.com/auth/classroom.coursework.students https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.student-submissions.me.readonly https://www.googleapis.com/auth/classroom.student-submissions.students.readonly https://www.googleapis.com/auth/classroom.announcements.readonly https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly https://www.googleapis.com/auth/drive.file"
     );
-    
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=${scope}&prompt=consent`;
-    
+
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=token&scope=${scope}&prompt=consent`;
+
     window.location.href = authUrl;
   };
 
