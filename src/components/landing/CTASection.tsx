@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, MessageCircle, Sparkles } from 'lucide-react';
-
 export function CTASection() {
-  return (
-    <section className="py-20 bg-background relative overflow-hidden">
+  return <section className="py-20 bg-background relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       <div className="absolute top-0 left-1/3 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
@@ -33,21 +31,14 @@ export function CTASection() {
             </Button>
           </Link>
           <Link to="/contact">
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="w-full sm:w-auto h-14 text-lg font-semibold"
-            >
+            <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 text-lg font-semibold">
               <MessageCircle className="mr-2 h-5 w-5" />
               Contact Sales
             </Button>
           </Link>
         </div>
 
-        <p className="text-sm text-muted-foreground">
-          No credit card required • 14-day free trial • Cancel anytime
-        </p>
+        
       </div>
-    </section>
-  );
+    </section>;
 }
