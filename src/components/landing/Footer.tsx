@@ -44,9 +44,9 @@ export function Footer() {
               Empowering educational institutions with smart, data-driven learning management solutions.
             </p>
             <div className="space-y-3">
-              <a href="mailto:support@skilllms.in" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
+              <a href="mailto:info@skilllms.in" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Mail className="h-4 w-4" />
-                support@skilllms.in
+                info@skilllms.in
               </a>
               <a href="tel:+911234567890" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="h-4 w-4" />
@@ -54,7 +54,7 @@ export function Footer() {
               </a>
               <div className="flex items-center gap-3 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                Bangalore, India
+                Sector 62, Noida, India
               </div>
             </div>
           </div>

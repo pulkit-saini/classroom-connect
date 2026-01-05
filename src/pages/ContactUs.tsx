@@ -43,7 +43,7 @@ export default function ContactUs() {
     {
       icon: Mail,
       title: 'Email Us',
-      details: 'support@skilllms.in',
+      details: 'info@skilllms.in',
       subtext: 'For general inquiries'
     },
     {
@@ -55,7 +55,7 @@ export default function ContactUs() {
     {
       icon: MapPin,
       title: 'Visit Us',
-      details: 'Bangalore, India',
+      details: 'Sector 62, Noida, India',
       subtext: 'By appointment only'
     },
   ];
