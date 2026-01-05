@@ -2,8 +2,9 @@ import { ReactNode } from 'react';
 import { SidebarProvider, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { AppSidebar } from './AppSidebar';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2 } from 'lucide-react';
-import { Navigate } from 'react-router-dom';
+import { Loader2, Home, LogOut } from 'lucide-react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -11,7 +12,8 @@ interface DashboardLayoutProps {
 }
 
 export function DashboardLayout({ children, allowedRoles }: DashboardLayoutProps) {
-  const { token, role, isLoading } = useAuth();
+  const { token, role, isLoading, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -41,6 +43,26 @@ export function DashboardLayout({ children, allowedRoles }: DashboardLayoutProps
           <header className="flex h-14 items-center gap-4 border-b border-border/50 px-6 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
             <SidebarTrigger className="-ml-2" />
             <div className="flex-1" />
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate('/')}
+                className="flex items-center gap-2"
+              >
+                <Home className="h-4 w-4" />
+                <span className="hidden sm:inline">Home</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={logout}
+                className="flex items-center gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+              >
+                <LogOut className="h-4 w-4" />
+                <span className="hidden sm:inline">Logout</span>
+              </Button>
+            </div>
           </header>
           <main className="flex-1 p-6">
             {children}
