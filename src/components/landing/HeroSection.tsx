@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, BarChart3, Users, BookOpen } from 'lucide-react';
+import { ArrowRight, BarChart3, Users, BookOpen, School, GraduationCap, Library, Building2 } from 'lucide-react';
 
 export function HeroSection() {
   return (
@@ -49,11 +49,13 @@ export function HeroSection() {
             <div className="flex flex-wrap items-center gap-8 mt-12 justify-center lg:justify-start">
               <div className="flex items-center gap-2">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
+                  {[School, GraduationCap, Library, Building2].map((Icon, i) => (
                     <div 
                       key={i} 
-                      className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background"
-                    />
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-background flex items-center justify-center"
+                    >
+                      <Icon className="h-4 w-4 text-primary-foreground" />
+                    </div>
                   ))}
                 </div>
                 <span className="text-sm text-muted-foreground">500+ Schools</span>
