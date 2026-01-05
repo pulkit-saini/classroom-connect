@@ -1,11 +1,12 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BookOpen, Loader2 } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { classroomService } from "@/services/classroomService";
 import logo from "@/assets/logo.png";
 import { Navbar } from "@/components/landing/Navbar";
+import LoadingPage from "./LoadingPage";
 
 const ADMIN_EMAILS = ['principal@school.edu', 'admin@school.edu', 'pulkit@mangosorange.com', 'mentor.ravi.db@gmail.com'];
 
@@ -13,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isDetectingRole, setIsDetectingRole] = useState(false);
+  const [detectedRole, setDetectedRole] = useState<string | null>(null);
 
   useEffect(() => {
     const initAuth = async () => {
@@ -44,18 +46,17 @@ const Login = () => {
     try {
       const role = await classroomService.detectUserRole(token, ADMIN_EMAILS);
       localStorage.setItem("user_role", role);
-      navigate(`/${role}`);
+      setDetectedRole(role);
+      // The LoadingPage component will handle the navigation
     } catch (error) {
       toast.error("Failed to detect role, defaulting to student");
-      navigate("/student");
-    } finally {
-      setIsDetectingRole(false);
+      setDetectedRole("student");
     }
   };
 
   const handleLogin = () => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    const redirectUri = window.location.origin;
+    const redirectUri = `${window.location.origin}/login`;
     const scope = encodeURIComponent(
       "openid email profile https://www.googleapis.com/auth/classroom.courses https://www.googleapis.com/auth/classroom.coursework.me https://www.googleapis.com/auth/classroom.coursework.students https://www.googleapis.com/auth/classroom.rosters https://www.googleapis.com/auth/classroom.profile.emails https://www.googleapis.com/auth/classroom.student-submissions.me.readonly https://www.googleapis.com/auth/classroom.student-submissions.students.readonly https://www.googleapis.com/auth/classroom.announcements.readonly https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly https://www.googleapis.com/auth/drive.file"
     );
@@ -64,6 +65,16 @@ const Login = () => {
     
     window.location.href = authUrl;
   };
+
+  // Show loading page when role is detected
+  if (detectedRole) {
+    return <LoadingPage targetRole={detectedRole} />;
+  }
+
+  // Show simple loading while detecting role
+  if (isDetectingRole) {
+    return <LoadingPage targetRole="student" />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background to-secondary/50 p-4">
@@ -74,7 +85,6 @@ const Login = () => {
       </div>
 
    
-
       {/* Navbar */}
       <div className="absolute top-0 left-0 right-0">
         <Navbar />
