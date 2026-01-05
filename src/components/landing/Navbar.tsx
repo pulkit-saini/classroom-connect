@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logo from '@/assets/logo.png';
@@ -9,6 +9,7 @@ export function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const token = localStorage.getItem('google_access_token');
@@ -22,6 +23,8 @@ export function Navbar() {
     { name: 'HelpDesk', href: '/helpdesk' },
     { name: 'Contact Us', href: '/contact' },
   ];
+
+  const isActive = (href: string) => location.pathname === href;
 
   const handleDashboardClick = () => {
     if (userRole) {
@@ -47,7 +50,11 @@ export function Navbar() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+                className={`transition-colors font-medium ${
+                  isActive(link.href)
+                    ? 'text-primary border-b-2 border-primary pb-1'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
                 {link.name}
               </Link>
@@ -85,7 +92,11 @@ export function Navbar() {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors font-medium py-2"
+                  className={`transition-colors font-medium py-2 ${
+                    isActive(link.href)
+                      ? 'text-primary border-l-2 border-primary pl-2'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
