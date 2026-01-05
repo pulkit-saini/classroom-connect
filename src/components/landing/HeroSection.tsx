@@ -30,18 +30,19 @@ export function HeroSection() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link to="/login">
                 <Button size="lg" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-12 text-base">
-                  Start Teaching Today
+                  Explore Dashboard
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="w-full sm:w-auto h-12 text-base font-semibold"
-              >
-                <Play className="mr-2 h-5 w-5" />
-                See How It Works
-              </Button>
+              <Link to="/contact">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="w-full sm:w-auto h-12 text-base font-semibold"
+                >
+                  Contact Us
+                </Button>
+              </Link>
             </div>
 
             {/* Trust Indicators */}
